@@ -18,5 +18,7 @@ def blogs_with_type(request, blogs_with_type):
     context = {}
     blog_type = get_object_or_404(BlogType, pk=blogs_with_type)
     context['blogs'] = Blog.objects.filter(blog_type=blog_type)
+    context['blog_type'] = blog_type
+    return render_to_response('blogs_with_type.html', context)
 
 
