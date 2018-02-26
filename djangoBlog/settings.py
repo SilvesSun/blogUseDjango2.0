@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,10 @@ STATICFILES_DIRS = [
 ]
 
 DEFAULT_PAGE_NUMBER = 2
+
+# media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+
+# 配置ckeditor
+CKEDITOR_UPLOAD_PATH = 'upload/'
