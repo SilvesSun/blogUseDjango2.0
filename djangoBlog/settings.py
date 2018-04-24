@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'ckeditor',
+    'read_statistics',
+    'comment',
 ]
 
 MIDDLEWARE = [
@@ -128,7 +130,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-DEFAULT_PAGE_NUMBER = 2
+DEFAULT_PAGE_NUMBER = 10
 
 # media
 MEDIA_URL = '/media/'
@@ -136,3 +138,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 # 配置ckeditor
 CKEDITOR_UPLOAD_PATH = 'upload/'
+
+# 缓存设置
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}

@@ -5,10 +5,203 @@
 {% endblock %}
 
 {% block header_extends %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" xmlns="http://www.w3.org/1999/html">
+    <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block nav_home_active %}active{% endblock %}
 {% block content %}
-    <h3 class="home-content">欢迎访问我的网站</h3>
+{#    <h3 class="home-content">欢迎访问我的网站</h3>#}
+    <!-- 图表容器 DOM -->
+{#    <div id="container1" ></div>#}
+    <div class="row">
+        <h3 class="content-item-title">
+            <span class="glyphicon glyphicon-pencil"></span>
+            <span>博客</span>
+            <span class="content-more">
+                共{{ blog_count }}篇博客
+                <a href="/blog/">more&gt;</a>
+            </span>
+        </h3>
+        <div class="col-sm-4">
+            <div class="home-block">
+                <h4 class='home-block-title'>博客分类</h4>
+                <ul class="list">
+                    {% for blog_type in blog_types %}
+                        <li><a href="{% url 'blogs_with_type' blog_type.pk %}" >{{ blog_type.type_name }}({{ blog_type.blog_count }})</a></li>
+                    {% empty %}
+                        <li>暂无分类</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-sm-8">
+            <div class="home-block" style="min-height: 380px;">
+                <!--阅读排行榜-->
+                <div class="read-nav">
+                    <div class="read-list">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active"><a href="javascript:void(0);">简介</a></li>
+                            <li><a href="javascript:void(0);">趋势图</a></li>
+                            <li><a href="javascript:void(0);">昨日阅读榜</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="read-content">
+                    <div class="read-content-item">
+                        <div>
+                            <h4 class="text text-primary" style="margin-bottom: 0em;margin-top: 1em;font-weight: bolder;">
+                                <p>We are told to remember the idea and not the man .</p>
+                                <p>Because a man can fail, He can be caught, he can be killed and forgotten .</p>
+                                <p>I have witnessed firsthand the power of ideas.I've seen people kill in the name of them...and die defending them</p>
+                                <p>But you cannot kiss an idea...cannot touch it or hold it .</p>
+                                <p>Ideas do not bleed. They do not feel pain.They do not love.</p>
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="read-content-item read-chart" style="display:none;">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div id="container" style="height:293px">加载数据中...</div>
+                                <p id="chart_text"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="read-content-item" style="display:none;">
+                        <ul class="list">
+                            {% for hot_data in yesterday_hot_data %}
+                                <li>
+                                    <span class="glyphicon glyphicon-arrow-up"></span>
+                                    <span class="read-num">{{ hot_data.read_num }}</span>
+                                    <a href="{% url 'blog_detail' hot_data.content_object.pk %}">{{ hot_data.content_object.title }}</a>
+                                </li>
+                            {% empty %}
+                                <li>昨天暂无热门博客</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-sm-4">
+                <div class="home-block">
+                    <h4 class='home-block-title'>最新发表</h4>
+                    <ul class="list">
+                        {% for latest_blog in latest_blogs %}
+                            <li>
+                                <a href="{% url 'blog_detail' latest_blog.pk %}">{{ latest_blog.title }}</a>
+                            </li>
+                        {% empty %}
+                            <li>暂无博客</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="home-block">
+                    <h4 class='home-block-title'>最新推荐</h4>
+                    <ul class="list">
+                        waiting to do
+                        <li><a href="#" target=_blank></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="home-block">
+                    <h4 class='home-block-title'>随机推荐</h4>
+                    <ul class="list">
+                        {% for rand_blog in rand_blogs %}
+                            <li>
+                                <a href="{% url 'blog_detail' rand_blog.id %}">{{ rand_blog.title }}</a>
+                            </li>
+                        {% empty %}
+                            <li>暂无博客</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <script>
+        // 图表配置
+        var options = {
+            chart: {
+                type: 'line'                          //指定图表的类型，默认是折线图（line）
+            },
+            title: {
+                text: null                 // 标题
+            },
+            xAxis: {
+                categories: {{ dates|safe }},
+                tickmarkPlacement: true,// x 轴分类
+                title: {text: '前7日阅读变化'}
+            },
+            yAxis: {
+                title: {
+                    text: null                // y 轴标题
+                },
+                labels: {enabled: false},
+                gridLineDashStyle: 'Dash'
+            },
+            series: [{                              // 数据列
+                name: '阅读量',                        // 数据列名
+                data: {{ read_nums }}                     // 数据
+            }],
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            legend: {enabled: false},
+            credits: {enabled: false}
+        };
+        // 图表初始化函数
+        var highcharts = Highcharts.chart('container', options);
+
+    </script>
+    <script type="text/javascript">
+        /*绑定切换排行榜页面*/
+        $(".read-list li").each(function(){
+            $(this).click(function(){
+                //设置active
+                var index = $(".read-list li").index($(this));
+                $(".read-list li").removeClass('active');
+                $(this).addClass('active');
+
+                //切换标签页
+                $(".read-content-item").hide();
+                $(".read-content-item:eq(" + index + ")").show();
+            });
+        });
+
+        /*设置排行样式*/
+        $(".read-content-item").each(function(){
+            var icons = ['glyphicon-thumbs-up', 'glyphicon-fire'];
+            var old_icons = 'glyphicon-arrow-up';
+
+            for (var i = 0; i < icons.length; i++) {
+                var item = $(this).find('ul li:eq('+i+')');
+                var icon = item.find('.glyphicon');
+                if(icon){
+                    icon.removeClass(old_icons);
+                    icon.addClass(icons[i]);
+                }
+            }
+        });
+
+        //加载图表
+        console.log($('#container'));
+    </script>
+
 {% endblock %}

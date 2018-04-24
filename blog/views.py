@@ -1,9 +1,23 @@
-from django.shortcuts import render_to_response, get_object_or_404
+import random
+
+from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, Page, PageNotAnInteger
 from django.db.models import Count
+from django.contrib.contenttypes.models import ContentType
+from django.conf import settings
 
 from blog.models import Blog, BlogType
-from django.conf import settings
+from comment.models import Comment
+from read_statistics.models import ReadNum
+
+from pprint import pprint
+
+from read_statistics.utils import read_statistics_once_read
+
+
+def rand_blogs(except_id=0):
+    rand_count = 5
+    return Blog.objects.exclude(id=except_id).order_by('?')[:rand_count]
 
 
 def get_blog_list_common(request, blogs_all_list):
@@ -47,22 +61,27 @@ def get_blog_list_common(request, blogs_all_list):
 def blog_list(request):
     blogs_all_list = Blog.objects.all()
     context = get_blog_list_common(request, blogs_all_list)
-    return render_to_response('blog/blog_list.html', context)
+    context['rand_blogs'] = rand_blogs()
+
+    return render(request, 'blog/blog_list.html', context)
 
 
 def blog_detail(request, blog_pk):
     blog = get_object_or_404(Blog, pk=blog_pk)
-    if not request.COOKIES.get('blog_%s_read', blog_pk):
-        blog.read_num += 1
-        blog.save()
+    read_cookie_key = read_statistics_once_read(request, blog)
     previous_blog = Blog.objects.filter(created_time__gt=blog.created_time).last()
     next_blog = Blog.objects.filter(created_time__lt=blog.created_time).first()
+    blog_content_type = ContentType.objects.get_for_model(Blog)
+    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.pk)
     context = {'blog': blog,
                'previous_blog': previous_blog,
-               'next_blog': next_blog}
+               'next_blog': next_blog,
+               'comments': comments,
+               'rand_blogs': rand_blogs(blog_pk)
+               }
 
-    response = render_to_response('blog/blog_detail.html', context)
-    response.set_cookie('blog_%s_read' % blog_pk, 'true', max_age=120)
+    response = render(request, 'blog/blog_detail.html', context)
+    response.set_cookie(read_cookie_key, 'true')
     return response
 
 
@@ -71,11 +90,16 @@ def blogs_with_type(request, blog_type_pk):
     blogs_all_list = Blog.objects.filter(blog_type=blog_type)
     context = get_blog_list_common(request, blogs_all_list)
     context['blog_type'] = blog_type
-    return render_to_response('blog/blogs_with_type.html', context)
+    context['rand_blogs'] = rand_blogs()
+    return render(request, 'blog/blogs_with_type.html', context)
 
 
 def blogs_with_date(request, year, month):
     blogs_all_list = Blog.objects.filter(created_time__year=year).filter(created_time__month=month)
     context = get_blog_list_common(request, blogs_all_list)
     context['blogs_with_date'] = '%s年%s月' % (year, month)
-    return render_to_response('blog/blogs_with_date.html', context)
+    context['rand_blogs'] = rand_blogs()
+    return render(request, 'blog/blogs_with_date.html', context)
+
+
+

@@ -9,3 +9,13 @@ body {
 ul {
     list-style-type: none!important;
 }
+
+.header-banner{
+    text-align: center;
+    min-height: 257px;
+    position: relative;
+    margin-top: -30px;
+    padding-top: 75px;
+    margin-bottom: 20px;
+    background-color: #4f7a93;
+}
