@@ -1,5 +1,8 @@
 import random
 
+import mistune
+
+from mistune import *
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, Page, PageNotAnInteger
 from django.db.models import Count
@@ -13,6 +16,26 @@ from read_statistics.models import ReadNum
 from pprint import pprint
 
 from read_statistics.utils import read_statistics_once_read
+from comment.forms import CommentForm
+
+
+class CustomerRender(mistune.Renderer):
+    def block_code(self, code, lang=None):
+        """Rendering block level code. ``pre > code``.
+
+        :param code: text content of the code block.
+        :param lang: language of the given code.
+        """
+        code = code.rstrip('\n')
+        lang_dic = {
+            'py': 'python',
+            'js': 'javascript',
+        }
+        if not lang:
+            code = escape(code, smart_amp=False)
+            return '<pre><code>%s\n</code></pre>\n' % code
+        code = escape(code, quote=True, smart_amp=False)
+        return '<pre><code class="%s">%s\n</code></pre>\n' % (lang_dic.get(lang, lang), code)
 
 
 def rand_blogs(except_id=0):
@@ -73,13 +96,20 @@ def blog_detail(request, blog_pk):
     next_blog = Blog.objects.filter(created_time__lt=blog.created_time).first()
     blog_content_type = ContentType.objects.get_for_model(Blog)
     comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.pk)
+    blog_content = mistune.markdown(blog.content)
+
+    data = {
+        'content_type': blog_content_type.model,
+        'object_id': blog_pk
+    }
     context = {'blog': blog,
                'previous_blog': previous_blog,
                'next_blog': next_blog,
                'comments': comments,
-               'rand_blogs': rand_blogs(blog_pk)
+               'rand_blogs': rand_blogs(blog_pk),
+               'blog_content': blog_content,
+               'comment_form': CommentForm(initial=data),
                }
-
     response = render(request, 'blog/blog_detail.html', context)
     response.set_cookie(read_cookie_key, 'true')
     return response

@@ -28,6 +28,8 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('register/', register, name='register'),
     path('comment/', include('comment.urls')),
+    path('mdeditor/', include('mdeditor.urls')),
+    path('markdownx/', include('markdownx.urls')),
 ]
 
 urlpatterns += static('/media/', document_root=settings.MEDIA_ROOT)

@@ -7,6 +7,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from ckeditor_uploader.fields import RichTextUploadingField
 
 from read_statistics.models import ReadNumExpandMethod, ReadDetail
+from mdeditor.fields import MDTextField
 
 
 class BlogType(models.Model):
@@ -19,7 +20,7 @@ class BlogType(models.Model):
 class Blog(models.Model, ReadNumExpandMethod):
     title = models.CharField(max_length=50, verbose_name=u'标题')
     blog_type = models.ForeignKey(BlogType, on_delete=models.DO_NOTHING, verbose_name=u'博客类型')
-    content = RichTextUploadingField()
+    content = MDTextField()
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name=u'作者')
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)

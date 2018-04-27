@@ -30,8 +30,6 @@
                                     <span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ blog.created_time|date:"Y-m-d" }}&nbsp;&nbsp;
                                     阅读({{ blog.get_read_num }})
                                 </p>
-
-                                <p>{{ blog.content|striptags|truncatechars:120  }}</p>
                             </div>
                         {% empty %}
                             <div class="blog">
