@@ -15,6 +15,7 @@ from read_statistics.models import ReadNum
 
 from pprint import pprint
 
+from .models import Tag
 from read_statistics.utils import read_statistics_once_read
 from comment.forms import CommentForm
 
@@ -122,6 +123,15 @@ def blogs_with_type(request, blog_type_pk):
     context['blog_type'] = blog_type
     context['rand_blogs'] = rand_blogs()
     return render(request, 'blog/blogs_with_type.html', context)
+
+
+def blog_with_tag(request, blog_tag_pk):
+    blog_tag = get_object_or_404(Tag, pk=blog_tag_pk)
+    blogs_all_list = blog_tag.blog_set.all()
+    context = get_blog_list_common(request, blogs_all_list)
+    context['blog_type'] = blog_tag
+    context['rand_blogs'] = rand_blogs()
+    return render(request, 'blog/blogs_with_tag.html', context)
 
 
 def blogs_with_date(request, year, month):

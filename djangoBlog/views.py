@@ -11,10 +11,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
 
-from blog.models import Blog, BlogType
+from blog.models import Blog, BlogType, Tag
 from read_statistics.utils import *
 from .forms import LoginForm, RegForm
 from blog.views import rand_blogs
+
 
 def get_seven_days_hot_blogs():
     today = timezone.now().date()
@@ -35,6 +36,7 @@ def home(request):
     blog_content_type = ContentType.objects.get_for_model(Blog)
     read_nums, dates = get_seven_days_read_data(blog_content_type)
     blog_types_list = BlogType.objects.annotate(blog_count=Count('blog'))
+    blog_tags_list = Tag.objects.annotate(blog_count=Count('blog'))
 
     # 获取缓存
     seven_days_hot_blogs = cache.get('seven_days_hot_blogs')
@@ -53,6 +55,7 @@ def home(request):
     context['yesterday_hot_data'] = get_yesterday_hot_data(blog_content_type)
     context['seven_days_hot_date'] = get_seven_days_hot_blogs
     context['blog_types'] = blog_types_list
+    context['blog_tags'] = blog_tags_list
     context['latest_blogs'] = lates_blogs
     context['blog_count'] = Blog.objects.all().count()
     context['rand_blogs'] = rand_blogs()

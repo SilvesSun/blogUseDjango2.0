@@ -17,6 +17,15 @@ class BlogType(models.Model):
         return self.type_name
 
 
+class Tag(models.Model):
+    name = models.CharField('标签名', max_length=20)
+    created_time = models.DateTimeField('创建时间', auto_now_add=True)
+    last_modified_time = models.DateTimeField('修改时间', auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Blog(models.Model, ReadNumExpandMethod):
     title = models.CharField(max_length=50, verbose_name=u'标题')
     blog_type = models.ForeignKey(BlogType, on_delete=models.DO_NOTHING, verbose_name=u'博客类型')
@@ -25,6 +34,7 @@ class Blog(models.Model, ReadNumExpandMethod):
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     read_details = GenericRelation(ReadDetail)
+    tags = models.ManyToManyField('Tag', verbose_name='标签', blank=True)
 
     class Meta:
         verbose_name = u"博客"
@@ -33,6 +43,9 @@ class Blog(models.Model, ReadNumExpandMethod):
 
     def __str__(self):
         return self.title
+
+    def tags_list(self):
+        return ','.join(i.name for i in self.tags.all())
 
 
 
