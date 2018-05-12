@@ -209,21 +209,6 @@
             });
         }
 
-        $('pre code').each(function () {
-           var lines = $(this).text().split('\n');
-           $(this).text('');
-           var len = lines.length;
-           $(this).append("<ul/>");
-           var $numbering = $('<ul/>').addClass('pre-numbering');
-           console.log($(this).parent());
-           $(this).addClass('has-numbering').parent().append($numbering);
-           for (i = 0; i < len; i++) {
-                $numbering.append($('<li/>').text(i));
-              }
-           for(i=0;i<len;i++) {
-               $(this).children('ul').append('<li>' + lines[i] + '</li>')
-           }
-        });
         hljs.initHighlightingOnLoad();
     </script>
 {% endblock %}}
