@@ -28,6 +28,7 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('register/', register, name='register'),
     path('comment/', include('comment.urls')),
+    path('likes/', include('likes.urls')),
     path('mdeditor/', include('mdeditor.urls')),
     path('markdownx/', include('markdownx.urls')),
 ]
