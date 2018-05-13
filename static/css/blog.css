@@ -30,9 +30,9 @@ ul.block-info-description li{
     margin-right: 2em;
 }
 
-div.blog-content {
-    text-indent: 1em;
-    margin-bottom: 2em;
+ul.blog-info-description li{
+    display: inline-block;
+    margin-right: 1em;
 }
 
 div.blog_more {
@@ -125,5 +125,5 @@ div.like {
 }
 
 div.like.active{
-    color: #f22c40;
+    color: #f22;
 }
