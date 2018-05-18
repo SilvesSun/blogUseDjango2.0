@@ -131,14 +131,14 @@ USE_L10N = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'staticfiles')
 ]
 
 DEFAULT_PAGE_NUMBER = 10
 
 # media
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 配置ckeditor
 CKEDITOR_UPLOAD_PATH = 'upload/'
@@ -172,4 +172,4 @@ CACHES = {
     }
 }
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
