@@ -21,6 +21,7 @@
 
 {% block content %}
     <div class="container">
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">
                 <h3>{{ blog.title }}</h3>
@@ -31,7 +32,7 @@
                     <li>阅读({{ blog.get_read_num }})</li>
                     <li>评论({% get_comment_count blog %})</li>
                 </ul>
-                <div class="blog-content">{{ blog_content|safe }}</div>
+                <div class="blog-content">{{ blog_content | safe}}</div>
                 <div class="like" onclick="likeChange(this, '{% get_content_type blog %}', {{ blog.pk }})">
                     <span class="glyphicon glyphicon-thumbs-up {% get_like_status blog %}"></span>
                     <span class="liked-num">{% get_like_count blog %}</span>
@@ -119,7 +120,7 @@
                         {% empty %}
                             <span id="no_comment">暂无评论</span>
                         {% endfor %}
-                    {% disqus_show_comments %}
+{#                    {% disqus_show_comments %}#}
                 </div>
             </div>
         </div>
@@ -195,10 +196,15 @@
             });
             return false;
         });
-        hljs.initHighlightingOnLoad();
         var codePre = $('pre');
         codePre.each(function () {
             $(this).attr('style','margin: 0 30px 10px !important');
+        });
+
+        var code = $("pre code");
+        code.each(function () {
+            var codetext = $(this).text();
+            $(this).text('\n'+ codetext + '\n');
         });
 
         function likeChange(obj, content_type, object_id){
@@ -235,5 +241,6 @@
                 }
             });
         }
+        hljs.initHighlightingOnLoad();
     </script>
 {% endblock %}}
