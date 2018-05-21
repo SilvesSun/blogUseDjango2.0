@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'comment',
     'markdownx',
     'taggit',
-    'likes'
+    'likes',
+    'django.contrib.sites',
+    'disqus'
 ]
 
 MIDDLEWARE = [
@@ -87,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blog',
         'USER': 'root',
-        'PASSWORD': 'sun786743',
+        'PASSWORD': '123456',
         'HOST': '127.0.0.1'
     }
 }
@@ -173,3 +175,6 @@ CACHES = {
 }
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+DISQUS_API_KEY = '6n6pMIiQJ3Pa1tRM9KB6Fgc5q2Jcy9jOumN8zJ4PSpDAFA8p5msbXkBd6qGXlxZx'
+DISQUS_WEBSITE_SHORTNAME = 'sksunblog'

@@ -99,3 +99,7 @@ img {
     height: auto;
     vertical-align: middle;
 }
+
+#codePre {
+    margin: 0 30px 10px !important;
+}
