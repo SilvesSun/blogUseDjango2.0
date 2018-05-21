@@ -9,6 +9,7 @@ from django.contrib import auth
 from django.urls import reverse  # 反向解析
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from django.http import JsonResponse
 
 
 from blog.models import Blog, BlogType, Tag
@@ -76,6 +77,19 @@ def login(request):
         'login_form': login_form
     }
     return render(request, 'login.html', context)
+
+
+def login_for_medal(request):
+    login_form = LoginForm(request.POST)
+    if login_form.is_valid():
+        user = login_form.cleaned_data.get('user')
+        auth.login(request, user)
+        data = {
+           'status': 'SUCCESS',
+        }
+    else:
+        data = {'status': 'ERROR'}
+    return JsonResponse(data)
 
 
 def register(request):
