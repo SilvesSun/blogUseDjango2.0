@@ -1,3 +1,9 @@
+.blog_header{ overflow: hidden; padding: 1em 0em 0em 2em;}
+.blog_header h3{ margin-top:10px;}
+.blog_header h3{ color: #0d79a6;}
+.blog_header li{ float: left; padding-right: 0.7em; font-size: small;}
+
+
 ul.blog-types {
     list-style-type: none;
 }
@@ -9,6 +15,11 @@ div.blog:not(:last-child){
 div.blog h3 {
     margin-top: 0.5em;
 }
+
+div.blog-content h2 {
+    font-size: 28px;
+}
+
 div.blog p.blog-info {
     margin-bottom: 0;
 }
@@ -18,11 +29,11 @@ div.paginator {
 
 ul.blog-info-description {
     list-style-type: none;
-    margin-bottom: 1em;
+    margin-bottom: 2em;
 }
 ul.blog-info-description li{
     display: inline-block;
-    margin-right: 1em;
+    margin-right: 2em;
 }
 div.blog-content{
     text-indent: 2em;
