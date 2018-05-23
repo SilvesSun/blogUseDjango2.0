@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{#{% load disqus_tags %}#}
+{% load disqus_tags %}
 {% block title %}
     {{ blog.title }}
 {% endblock %}
@@ -147,7 +147,7 @@
                         {% empty %}
                             <span id="no_comment">暂无评论</span>
                         {% endfor %}
-{#                    {% disqus_show_comments %}#}
+                    {% disqus_show_comments %}
                 </div>
             </div>
         </div>
