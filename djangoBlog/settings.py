@@ -45,8 +45,6 @@ INSTALLED_APPS = [
     'markdownx',
     'taggit',
     'likes',
-    'django.contrib.sites',
-    'disqus'
 ]
 
 MIDDLEWARE = [
