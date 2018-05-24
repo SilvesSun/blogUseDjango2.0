@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'markdownx',
     'taggit',
     'likes',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [
@@ -87,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blog',
         'USER': 'root',
-        'PASSWORD': 'sun786743',
+        'PASSWORD': '123456',
         'HOST': '127.0.0.1'
     }
 }

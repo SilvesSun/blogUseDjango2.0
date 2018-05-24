@@ -14,6 +14,8 @@ from blog.models import Blog, BlogType
 from .models import Tag
 from read_statistics.utils import read_statistics_once_read
 from djangoBlog.forms import LoginForm
+from django.contrib.sitemaps import Sitemap
+
 
 
 class CustomerRender(mistune.Renderer):
@@ -128,4 +130,16 @@ def blogs_with_date(request, year, month):
     return render(request, 'blog/blogs_with_date.html', context)
 
 
+class BlogSitemap(Sitemap):
+    changefreq = "daily"
+    priority = 0.5
+
+    def items(self):
+        return Blog.objects.all()
+
+    def lastmod(self, obj):
+        return obj.updated_time
+
+    def location(self, obj):
+        return 'blog/%s' % obj.id
 
