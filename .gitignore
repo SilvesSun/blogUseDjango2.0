@@ -2,3 +2,4 @@
 *.xml
 .idea/
 __pycache__/
+static/
