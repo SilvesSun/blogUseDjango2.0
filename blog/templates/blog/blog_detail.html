@@ -94,7 +94,7 @@
                 <div class="comment-area">
                     <h3 class="comment-area-title">提交评论</h3>
                     {% if user.is_authenticated %}
-                        <form id="comment_form" action="{% url 'update_comment' %}" method="POST" style="overflow:hidden">
+                        <form id="comment_form" action="" method="POST" style="overflow:hidden">
                             <label>{{ user.username }}，欢迎评论~</label>
                             <div id="reply_content_container" style="display:none;">
                                 <p id="reply_title">回复：</p>
