@@ -258,6 +258,10 @@
                             reply_html = reply_html.format(data['pk'], data['username'], timeFormat(data['comment_time']), data['reply_to'], data['text'], data['content_type']);
                             $("#root_" + data['root_pk']).append(reply_html);
                         }
+                    CKEDITOR.instances['id_text'].setData('');
+                    $('#reply_content_container').hide();
+                    $('#reply_comment_id').val('0');
+                    $('#no_comment').remove();
                 },
                 error: function(xhr){
                     console.log(xhr);
@@ -314,6 +318,7 @@
                     console.log(xhr)
                 }
             });
+
         }
         $("#login_medal_form").submit(function(event){
             event.preventDefault();
