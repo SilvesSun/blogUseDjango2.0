@@ -141,5 +141,5 @@ class BlogSitemap(Sitemap):
         return obj.updated_time
 
     def location(self, obj):
-        return 'blog/%s' % obj.id
+        return '/blog/%s' % obj.id
 

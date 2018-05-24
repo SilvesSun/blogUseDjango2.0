@@ -18,6 +18,8 @@ from django.urls import path, include
 from .views import home, login, register, login_for_medal
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.sitemaps.views import sitemap
+from blog.views import BlogSitemap
 
 urlpatterns = [
     path('', home, name='home'),
@@ -35,3 +37,8 @@ urlpatterns = [
 ]
 
 urlpatterns += static('/media/', document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+    #sitemap
+    path('sitemap.xml', sitemap, {'sitemaps': {'blog': BlogSitemap}}, name='django.contrib.sitemaps.views.sitemap')
+]
