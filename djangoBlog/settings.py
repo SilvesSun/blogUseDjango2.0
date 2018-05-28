@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'haystack',
     'blog',
     'mdeditor',
     'ckeditor',
@@ -177,3 +178,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DISQUS_API_KEY = '6n6pMIiQJ3Pa1tRM9KB6Fgc5q2Jcy9jOumN8zJ4PSpDAFA8p5msbXkBd6qGXlxZx'
 DISQUS_WEBSITE_SHORTNAME = 'sksunblog'
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'blog.whoosh_cn_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    },
+}
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+

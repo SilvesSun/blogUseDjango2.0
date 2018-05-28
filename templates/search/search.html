@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load highlight %}
+{% load comment_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">{% block block_list_title %}博客列表{% endblock %}</div>
+                    <div class="panel-body">
+                        {% for blog in page.object_list %}
+                            <div class="blog">
+                                <h3>
+                                    <a href="{% url 'blog_detail' blog.object.pk %}">
+                                        {{ blog.object.title }}
+                                    </a>
+                                </h3>
+
+                                <p class="blog-info">
+                                    {% for tag in blog.object.tags.all %}
+                                        <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+                                        <a href="{% url 'blogs_with_tag' tag.pk %}">
+                                            {{ tag.name }}
+                                        </a>
+                                    {% endfor %}
+
+                                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ blog.object.created_time|date:"Y-m-d" }}&nbsp;&nbsp;
+                                    阅读({{ blog.object.get_read_num }})&nbsp;&nbsp;
+                                    评论({% get_comment_count blog.object %})
+                                </p>
+                            </div>
+                            <div class="entry-content clearfix">
+                                <p>{% highlight blog.object.content with query %}</p>
+                            </div>
+                        {% empty %}
+                            <div class="blog">
+                                <h3>暂无博客</h3>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="paginator">
+                  <ul class="pagination">
+                    <li>
+                        {% if page_of_blogs.has_previous %}
+                            <a href="?page={{ page_of_blogs.previous_page_number }}" aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        {% endif %}
+
+                    </li>
+                    {% for page_num in page_range %}
+                        {# 当前页面高亮 #}
+                        {% if page_num == page_of_blogs.number %}
+                            <li class="active"><span>{{ page_num }}</span></li>
+                        {% else %}
+                            {% if page_num == '...' %}
+                                <li><span>{{ page_num }}</span></li>
+                            {% else %}
+                                <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                            {% endif %}
+
+                        {% endif %}
+                    {% endfor %}
+
+                    <li>
+                        {% if page_of_blogs.has_next %}
+                            <a href="?page={{ page_of_blogs.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        {% endif %}
+                    </li>
+                  </ul>
+                  <p>
+{#                      共有{{ page_of_blogs.paginator.count }}篇博客, 当前第{{ page_of_blogs.number }},#}
+{#                      共有{{ page_of_blogs.paginator.num_pages }}页#}
+                  </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -43,6 +43,13 @@
                     <li class="{% block nav_blog_active %}{% endblock %}"><a href="{% url 'blog_list' %}">博客</a></li>
                 </ul>
 
+                <form action="{% url 'haystack_search' %}" class="navbar-form navbar-right" method="get">
+                    <input name="q" type="text" placeholder="搜索博文" class="form-control">
+                    <button type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </form>
+
                 <ul id="user_part" class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'login' %}">登录/注册</a></li>
                 </ul>

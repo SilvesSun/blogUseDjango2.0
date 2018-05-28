@@ -20,3 +20,7 @@ ul {
     margin-bottom: 20px;
     background-color: #4f7a93;
 }
+
+span.highlighted {
+    color: red ;
+}
