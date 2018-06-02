@@ -9,35 +9,49 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">{% block block_list_title %}博客列表{% endblock %}</div>
                     <div class="panel-body">
-                        {% for blog in page.object_list %}
-                            <div class="blog">
-                                <h3>
-                                    <a href="{% url 'blog_detail' blog.object.pk %}">
-                                        {{ blog.object.title }}
-                                    </a>
-                                </h3>
-
-                                <p class="blog-info">
-                                    {% for tag in blog.object.tags.all %}
-                                        <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
-                                        <a href="{% url 'blogs_with_tag' tag.pk %}">
-                                            {{ tag.name }}
+                        {% if query %}
+                            {% for blog in page.object_list %}
+                                <div class="blog">
+                                    <h3>
+                                        <a href="{% url 'blog_detail' blog.object.pk %}">
+                                            {{ blog.object.title }}
                                         </a>
-                                    {% endfor %}
+                                    </h3>
 
-                                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ blog.object.created_time|date:"Y-m-d" }}&nbsp;&nbsp;
-                                    阅读({{ blog.object.get_read_num }})&nbsp;&nbsp;
-                                    评论({% get_comment_count blog.object %})
-                                </p>
-                            </div>
-                            <div class="entry-content clearfix">
-                                <p>{% highlight blog.object.content with query %}</p>
-                            </div>
-                        {% empty %}
-                            <div class="blog">
-                                <h3>暂无博客</h3>
-                            </div>
-                        {% endfor %}
+                                    <p class="blog-info">
+                                        {% for tag in blog.object.tags.all %}
+                                            <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+                                            <a href="{% url 'blogs_with_tag' tag.pk %}">
+                                                {{ tag.name }}
+                                            </a>
+                                        {% endfor %}
+
+                                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ blog.object.created_time|date:"Y-m-d" }}&nbsp;&nbsp;
+                                        阅读({{ blog.object.get_read_num }})&nbsp;&nbsp;
+                                        评论({% get_comment_count blog.object %})
+                                    </p>
+                                </div>
+                                <div class="entry-content clearfix">
+                                    <p>{% highlight blog.object.content with query %}</p>
+                                </div>
+                            {% empty %}
+                                <div class="blog">
+                                    <h3>没有搜索到你想要的结果！</h3>
+                                </div>
+                            {% endfor %}
+                            {% if page.has_previous or page.has_next %}
+                                <div>
+                                    {% if page.has_previous %}
+                                        <a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; 上一页
+                                    {% if page.has_previous %}</a>{% endif %}
+                                    |
+                                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}下一页
+                                    &raquo;{% if page.has_next %}</a>{% endif %}
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            请输入搜索关键词，例如 django
+                        {% endif %}
                     </div>
                 </div>
                 <div class="paginator">
@@ -72,10 +86,6 @@
                         {% endif %}
                     </li>
                   </ul>
-                  <p>
-{#                      共有{{ page_of_blogs.paginator.count }}篇博客, 当前第{{ page_of_blogs.number }},#}
-{#                      共有{{ page_of_blogs.paginator.num_pages }}页#}
-                  </p>
                 </div>
             </div>
 
