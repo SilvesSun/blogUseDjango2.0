@@ -20,24 +20,36 @@
                     <div class="panel-body">
                         {% for blog in page_of_blogs.object_list %}
                             <div class="blog">
-                                <h3>
+                                <div class="blog-title">
+                                    <h3>
                                     <a href="{% url 'blog_detail' blog.pk %}">
                                         {{ blog.title }}
                                     </a>
                                 </h3>
-
-                                <p class="blog-info">
-                                    {% for tag in blog.tags.all %}
-                                        <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
-                                        <a href="{% url 'blogs_with_tag' tag.pk %}">
-                                            {{ tag.name }}
-                                        </a>
-                                    {% endfor %}
-
-                                    <span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ blog.created_time|date:"Y-m-d" }}&nbsp;&nbsp;
-                                    阅读({{ blog.get_read_num }})&nbsp;&nbsp;
-                                    评论({% get_comment_count blog %})
-                                </p>
+                                </div>
+                                <div class="blog-thumb">
+                                    <ul>
+                                        <li class="img">
+                                            <img src="{% get_img_thumb blog.content%}" width="150" height="100" alt="/">
+                                        </li>
+                                        <li class="des">{{ blog.content | truncatewords:15 }}</li>
+                                    </ul>
+                                </div>
+                                <div class="blog-info">
+                                    <ul>
+                                        <li>
+                                            {% for tag in blog.tags.all %}
+                                                <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+                                                <a href="{% url 'blogs_with_tag' tag.pk %}">
+                                                    {{ tag.name }}
+                                                </a>
+                                            {% endfor %}
+                                        </li>
+                                        <li><span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ blog.created_time|date:"Y-m-d" }}</li>
+                                        <li><span class="glyphicon glyphicon-pencil"></span>评论({% get_comment_count blog %})</li>
+                                        <li><span class="glyphicon glyphicon-flag"></span>阅读({{ blog.get_read_num }})</li>
+                                    </ul>
+                                </div>
                             </div>
                         {% empty %}
                             <div class="blog">

@@ -1,8 +1,9 @@
 from django import  template
 from django.contrib.auth.models import ContentType
+from pyquery import PyQuery as pq
 
 from comment.models import Comment
-from comment.forms import  CommentForm
+from comment.forms import CommentForm
 
 
 register = template.Library()
@@ -26,3 +27,16 @@ def get_comment_list(obj):
     content_type = ContentType.objects.get_for_model(obj)
     comments = Comment.objects.filter(content_type=content_type, object_id=obj.pk, parent=None)
     return comments.order_by('-comment_time')
+
+
+@register.simple_tag()
+def get_img_thumb(content):
+    mark_content = markdown.markdown(content)
+    html = pq(mark_content)
+    # print(html.html())
+    img = html('img').attr('src')
+    if img:
+        return img
+
+    else:
+        return '#'
