@@ -1,3 +1,4 @@
+import markdown
 from django import  template
 from django.contrib.auth.models import ContentType
 from pyquery import PyQuery as pq
