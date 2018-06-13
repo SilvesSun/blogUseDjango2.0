@@ -1,8 +1,10 @@
 import random
 
 import mistune
+import markdown
 
-from mistune import *
+from mistune import escape
+
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, Page, PageNotAnInteger
 from django.db.models import Count
@@ -16,7 +18,6 @@ from read_statistics.utils import read_statistics_once_read
 from djangoBlog.forms import LoginForm
 from django.contrib.sitemaps import Sitemap
 from django.db.models import Q
-
 
 
 class CustomerRender(mistune.Renderer):
@@ -36,6 +37,16 @@ class CustomerRender(mistune.Renderer):
             return '<pre><code>%s\n</code></pre>\n' % code
         code = escape(code, quote=True, smart_amp=False)
         return '<pre><code class="%s">%s\n</code></pre>\n' % (lang_dic.get(lang, lang), code)
+
+
+class CustomerMarkdown(mistune.Markdown):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.renderer = CustomerRender(**kwargs)
+
+
+def customer_markdown(text, escape=True, **kwargs):
+    return CustomerMarkdown(escape=escape, render=CustomerRender, **kwargs)(text)
 
 
 def rand_blogs(except_id=0):
@@ -92,7 +103,7 @@ def blog_list(request):
 def blog_detail(request, blog_pk):
     blog = get_object_or_404(Blog, pk=blog_pk)
     read_cookie_key = read_statistics_once_read(request, blog)
-    blog_content = mistune.markdown(blog.content)
+    blog_content = customer_markdown(blog.content)
     # blog_content = blog.content
     context = {}
     context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()
@@ -100,8 +111,8 @@ def blog_detail(request, blog_pk):
     context['blog'] = blog
     context['blog_content'] = blog_content
     context['login_form'] = LoginForm()
-    response = render(request, 'blog/blog_detail.html', context) # 响应
-    response.set_cookie(read_cookie_key, 'true') # 阅读cookie标记
+    response = render(request, 'blog/blog_detail.html', context)  # 响应
+    response.set_cookie(read_cookie_key, 'true')  # 阅读cookie标记
     return response
 
 
@@ -143,4 +154,3 @@ class BlogSitemap(Sitemap):
 
     def location(self, obj):
         return '/blog/%s' % obj.id
-
