@@ -106,8 +106,8 @@ def blog_detail(request, blog_pk):
     blog_content = customer_markdown(blog.content)
     # blog_content = blog.content
     context = {}
-    context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()
-    context['next_blog'] = Blog.objects.filter(created_time__lt=blog.created_time).first()
+    context['next_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()
+    context['previous_blog'] = Blog.objects.filter(created_time__lt=blog.created_time).first()
     context['blog'] = blog
     context['blog_content'] = blog_content
     context['login_form'] = LoginForm()
