@@ -12,12 +12,11 @@
     </title>
     <link rel="stylesheet" href="{% static 'base.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}">
-    <script defer type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-    <script defer type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
     {% block header_extends %}
     {% endblock %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script src="{% static 'js/googleAnalysis.js' %}"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
