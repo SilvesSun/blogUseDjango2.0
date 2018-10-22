@@ -9,8 +9,8 @@
 {% load likes_tags %}
 {% block header_extends %}
     <link rel="preload" href="{% static "css/blog.css" %}" as="style" onload="this.rel='stylesheet'">
-    <script defer type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
-    <script defer type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 {#    <script async type="text/javascript" href="{% static 'js/jquery.min.js' %}"></script>#}
 {#    <link href="https://cdn.bootcss.com/github-markdown-css/2.8.0/github-markdown.min.css" rel="stylesheet">#}
     <link rel="preload" href="{% static 'js/styles/solarized-light.css' %}" as="style" onload="this.rel='stylesheet'">
