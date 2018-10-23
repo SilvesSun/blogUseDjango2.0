@@ -110,3 +110,17 @@ img {
     height: auto;
     vertical-align: middle;
 }
+
+
+div.blog-thumb li {
+    list-style-type: none;
+    display: inline-block;
+}
+
+
+.blog-thumb li.des {
+    margin-left: 4.5em;
+    float: right;
+    width: 560px;
+    height: 100px;
+}
