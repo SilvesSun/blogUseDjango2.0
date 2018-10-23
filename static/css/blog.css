@@ -124,3 +124,32 @@ div.blog-thumb li {
     width: 560px;
     height: 100px;
 }
+
+div.blog-info li {
+    list-style-type: none;
+    display: inline-block;
+}
+
+div.blog-content ul {
+    list-style-type: circle;
+    text-indent: 1px;
+    margin-bottom: 2em;
+}
+
+div.blog-content ul ul{
+    list-style-type: square;
+    text-indent: 1px;
+    margin-bottom: 2em;
+}
+
+div.blog-content ul ul li{
+    list-style-type: disc;
+    text-indent: 1px;
+    margin-left: 2em;
+}
+
+div.blog-content ul li {
+    list-style: disc;
+    display: list-item;
+    margin-left: 4em;
+}

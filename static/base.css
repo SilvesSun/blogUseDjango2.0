@@ -8,7 +8,7 @@ body {
 }
 
 ul {
-    list-style-type: none!important;
+    list-style-type: none;
 }
 
 .header-banner{
@@ -22,5 +22,9 @@ ul {
 }
 
 span.highlighted {
-    color: red;
+    color: red ;
+}
+
+div.blog-info ul {
+    display: inline-block
 }
