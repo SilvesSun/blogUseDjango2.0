@@ -32,11 +32,11 @@
                                         <li class="img">
                                             <img src="{% get_img_thumb blog.content%}" width="150" height="100" alt="/">
                                         </li>
-                                        <li class="des">{{ blog.content | truncatewords:15 }}</li>
+                                        <li class="des" style="margin-left: 4.5em; float: right; width: 560px;height: 100px;">{{ blog.content | truncatewords:15 }}</li>
                                     </ul>
                                 </div>
                                 <div class="blog-info">
-                                    <ul>
+                                    <ul style="display: inline-block">
                                         <li>
                                             {% for tag in blog.tags.all %}
                                                 <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
