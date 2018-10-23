@@ -31,7 +31,7 @@ def get_comment_list(obj):
 
 
 @register.simple_tag()
-def get_img_thumb(content):
+def get_img_thumb(content, request):
     mark_content = markdown.markdown(content)
     html = pq(mark_content)
     # print(html.html())
@@ -40,4 +40,4 @@ def get_img_thumb(content):
         return img
 
     else:
-        return '#'
+        return 'http://{0}/static/image/bigIMG.jpg'.format(request.get_host())
