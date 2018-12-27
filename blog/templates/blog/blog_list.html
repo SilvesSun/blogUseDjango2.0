@@ -32,7 +32,7 @@
                                         <li class="img" style="max-width: 94%; height: auto; vertical-align: middle;">
                                             <img src="{% get_img_thumb blog.content request%}" width="150" height="100" alt="/">
                                         </li>
-                                        <li class="des" style="margin-left: 4.5em; float: right; width: 560px;height: 100px;">{{ blog.content | truncatewords:15 }}</li>
+                                        <li class="des" style="margin-left: 4.5em; float: right; width: 560px;height: 100px;">{{ blog.content | truncatechars_html:20 }}</li>
                                     </ul>
                                 </div>
                                 <div class="blog-info">
