@@ -35,6 +35,7 @@ class Blog(models.Model, ReadNumExpandMethod):
     updated_time = models.DateTimeField(auto_now=True)
     read_details = GenericRelation(ReadDetail)
     tags = models.ManyToManyField('Tag', verbose_name='标签', blank=True)
+    overview = models.CharField(max_length=200, default='')
 
     class Meta:
         verbose_name = u"博客"

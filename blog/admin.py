@@ -10,7 +10,7 @@ class BlogTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'blog_type', 'author', 'get_read_num', 'created_time', 'updated_time', 'tags_list']
+    list_display = ['id', 'title', 'overview', 'blog_type', 'author', 'get_read_num', 'created_time', 'updated_time', 'tags_list']
     filter_horizontal = ('tags',)
     list_display_links = ('id', 'title')
     list_filter = ('tags', 'created_time')  # 过滤器
