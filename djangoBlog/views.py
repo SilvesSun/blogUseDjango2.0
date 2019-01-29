@@ -110,3 +110,9 @@ def register(request):
         'reg_form': reg_form
     }
     return render(request, 'register.html', context)
+
+
+def logout(request):
+    if request.user.is_authenticated():
+        auth.logout(request)
+    return redirect(reverse('login'))

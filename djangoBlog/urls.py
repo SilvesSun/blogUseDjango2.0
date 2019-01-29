@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import home, login, register, login_for_medal
+from .views import home, login, register, login_for_medal, logout
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
@@ -28,6 +28,7 @@ urlpatterns = [
     path('ckeditor', include('ckeditor_uploader.urls')),
     path('blog/', include('blog.urls')),
     path('login/', login, name='login'),
+    path('logout/', logout, name='logout'),
     path('login_for_medal/', login_for_medal, name='login_for_medal'),
     path('register/', register, name='register'),
     path('comment/', include('comment.urls')),
