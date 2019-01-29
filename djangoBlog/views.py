@@ -113,6 +113,6 @@ def register(request):
 
 
 def logout(request):
-    if request.user.is_authenticated():
+    if request.user:
         auth.logout(request)
     return redirect(reverse('login'))
